@@ -1,0 +1,206 @@
+.design-detail { min-height: 100vh; }
+
+.design-detail__inner {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: var(--sp-10);
+  padding-top: 90px;
+  padding-bottom: var(--sp-16);
+  align-items: start;
+}
+
+/* Preview */
+.design-detail__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+.design-detail__preview-card {
+  position: relative;
+  background: linear-gradient(135deg, var(--jyno-dark), var(--jyno-elevated));
+  border: 1px solid var(--jyno-border-subtle);
+  border-radius: var(--r-2xl);
+  padding: var(--sp-12) var(--sp-8);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  transition: all var(--t-base);
+}
+.design-detail__preview-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(200,255,0,0.06), transparent);
+}
+.design-detail__preview-card.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  border-radius: 0;
+  padding: var(--sp-16);
+}
+.design-detail__fullscreen-btn {
+  position: absolute;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  width: 36px;
+  height: 36px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  color: var(--jyno-silver);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  z-index: 1;
+}
+.design-detail__fullscreen-btn:hover {
+  color: var(--jyno-white);
+  background: var(--glass-bg-hover);
+}
+.design-detail__tags {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+.design-detail__similar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+
+/* Right panel */
+.design-detail__right { position: sticky; top: 80px; }
+.design-detail__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+.design-detail__badges {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+.design-detail__quick-stats {
+  display: flex;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+.design-detail__quick-stat {
+  font-size: 0.875rem;
+  color: var(--jyno-silver);
+}
+
+/* Creator link */
+.design-detail__creator {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  background: var(--jyno-surface);
+  border: 1px solid var(--jyno-border-subtle);
+  border-radius: var(--r-xl);
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--t-fast);
+}
+.design-detail__creator:hover {
+  border-color: var(--jyno-border);
+  background: var(--jyno-elevated);
+}
+
+/* Actions */
+.design-detail__actions {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+/* Buy */
+.design-detail__buy {
+  background: var(--jyno-surface);
+  border: 1px solid var(--jyno-border-subtle);
+  border-radius: var(--r-xl);
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.design-detail__price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.design-detail__price-badges {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: flex-end;
+}
+
+/* Colors */
+.design-detail__colors {
+  padding: var(--sp-4);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+}
+.design-detail__color-swatches {
+  display: flex;
+  gap: var(--sp-4);
+}
+.design-detail__color-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+}
+.design-detail__swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  border: 2px solid var(--jyno-border);
+}
+
+/* Comments */
+.design-detail__comment-input {
+  display: flex;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+.design-detail__comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  max-height: 300px;
+  overflow-y: auto;
+}
+.design-detail__comment {
+  display: flex;
+  gap: var(--sp-3);
+}
+.design-detail__comment-body {
+  flex: 1;
+  min-width: 0;
+}
+.design-detail__comment-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: 4px;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .design-detail__inner { grid-template-columns: 1fr 360px; }
+}
+@media (max-width: 900px) {
+  .design-detail__inner { grid-template-columns: 1fr; }
+  .design-detail__right { position: static; }
+  .design-detail__similar-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .design-detail__similar-grid { grid-template-columns: 1fr; }
+}

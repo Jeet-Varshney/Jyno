@@ -1,0 +1,11 @@
+/* App-level resets and page transition */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page entry animation */
+.page-enter {
+  animation: fadeUp 0.5s ease both;
+}
