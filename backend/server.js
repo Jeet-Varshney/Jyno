@@ -400,6 +400,59 @@ app.post('/api/auth/login', (req, res) => {
   })
 })
 
+// POST Signup
+app.post('/api/auth/signup', (req, res) => {
+  const { username, name, password } = req.body
+  if (!username || !name || !password) {
+    return res.status(400).json({ error: 'Username, name, and password are required' })
+  }
+  
+  const normalizedUsername = username.trim().toLowerCase()
+  if (USERS_DB[normalizedUsername]) {
+    return res.status(400).json({ error: 'Username is already taken' })
+  }
+  
+  const passwordHash = crypto.createHash('sha256').update(password).digest('hex')
+  
+  // Register in USERS_DB
+  USERS_DB[normalizedUsername] = {
+    username: normalizedUsername,
+    name: name.trim(),
+    role: 'creator',
+    passwordHash: passwordHash
+  }
+  
+  // Register in creators list
+  const newCreator = {
+    id: String(creators.length + 1),
+    name: name.trim(),
+    username: normalizedUsername,
+    avatar: null,
+    bio: 'Digital artist × sneaker head. Designing the future one sole at a time.',
+    followers: 0,
+    following: 0,
+    totalDesigns: 0,
+    totalSales: 0,
+    totalEarnings: 0,
+    badges: [],
+    popularDesigns: [],
+    joinedAt: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+    colorAccent: ['#00D4FF', '#FF6B9D', '#C8FF00', '#FF6B00', '#8B5CF6', '#FF3366'][Math.floor(Math.random() * 6)]
+  }
+  creators.push(newCreator)
+  
+  res.status(201).json({
+    user: {
+      username: normalizedUsername,
+      name: name.trim(),
+      role: 'creator',
+      avatar: null
+    },
+    token: 'mock-jwt-token-xyz-creator'
+  })
+})
+
+
 // ADMIN: Delete a design
 app.delete('/api/designs/:id', (req, res) => {
   const idx = designs.findIndex(item => item.id === req.params.id)

@@ -27,7 +27,19 @@ export default function CreatorProfile() {
     getDesigns().then(setAllDesigns).catch(console.error)
   }, [])
 
-  const creator = allCreators.find(c => c.username === username) || allCreators[0] || {}
+  const creator = allCreators.find(c => c.username === username) || allCreators[0] || {
+    name: '',
+    username: '',
+    badges: [],
+    followers: 0,
+    following: 0,
+    totalDesigns: 0,
+    totalSales: 0,
+    totalEarnings: 0,
+    bio: '',
+    joinedAt: '',
+    colorAccent: '#C8FF00'
+  }
   const creatorDesigns = allDesigns.filter(d => d.creator.username === creator.username)
   // Fill up if too few
   const displayDesigns = creatorDesigns.length > 0 ? creatorDesigns : allDesigns.slice(0, 4)
@@ -61,7 +73,7 @@ export default function CreatorProfile() {
                 style={{ background: `linear-gradient(135deg, ${creator.colorAccent}44, var(--jyno-elevated))` }}
               >
                 <span style={{ fontSize: '3rem', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
-                  {creator.name[0]}
+                  {(creator.name && creator.name[0]) || ''}
                 </span>
               </div>
               {creator.badges.includes('verified') && (

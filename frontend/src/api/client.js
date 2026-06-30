@@ -7,7 +7,14 @@ async function request(path, options = {}) {
       headers: { 'Content-Type': 'application/json' },
       ...options,
     })
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    if (!res.ok) {
+      let msg = `HTTP ${res.status}`
+      try {
+        const data = await res.clone().json()
+        if (data && data.error) msg = data.error
+      } catch (_) {}
+      throw new Error(msg)
+    }
     return res.json()
   } catch (err) {
     console.error(`API error [${path}]:`, err)
@@ -35,6 +42,10 @@ export const getCreators = () => request('/creators')
 
 export const login = (username, password) =>
   request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) })
+
+export const signup = (name, username, password) =>
+  request('/auth/signup', { method: 'POST', body: JSON.stringify({ name, username, password }) })
+
 
 export const deleteDesign = (id) =>
   request(`/designs/${id}`, { method: 'DELETE' })

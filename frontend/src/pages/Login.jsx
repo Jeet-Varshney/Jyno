@@ -1,29 +1,52 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { login } from '../api/client'
+import { login, signup } from '../api/client'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import './Login.css'
 
 export default function Login() {
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+  function toggleMode() {
+    setIsSignUp(!isSignUp)
+    setName('')
+    setUsername('')
+    setPassword('')
+    setError('')
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!username.trim() || !password.trim()) {
-      setError('Please fill in all fields.')
-      return
+    
+    if (isSignUp) {
+      if (!name.trim() || !username.trim() || !password.trim()) {
+        setError('Please fill in all fields.')
+        return
+      }
+    } else {
+      if (!username.trim() || !password.trim()) {
+        setError('Please fill in all fields.')
+        return
+      }
     }
 
     setError('')
     setLoading(true)
 
     try {
-      const res = await login(username, password)
+      let res
+      if (isSignUp) {
+        res = await signup(name, username, password)
+      } else {
+        res = await login(username, password)
+      }
       
       // Store user and token in localStorage
       localStorage.setItem('jyno_user', JSON.stringify(res.user))
@@ -39,11 +62,12 @@ export default function Login() {
       }
     } catch (err) {
       console.error(err)
-      setError('Invalid username or password. Please try again.')
+      setError(err.message || 'Authentication failed. Please try again.')
     } finally {
       setLoading(false)
     }
   }
+
 
   return (
     <div className="login-page">
@@ -56,12 +80,32 @@ export default function Login() {
               <circle cx="14" cy="22" r="4" fill="#C8FF00" opacity="0.3"/>
               <circle cx="14" cy="22" r="2" fill="#C8FF00"/>
             </svg>
-            <h1 className="heading-xl text-white">Sign In to Jyno</h1>
-            <p className="body-md text-muted">Access your dashboard, design studio, and sales metrics.</p>
+            <h1 className="heading-xl text-white">{isSignUp ? 'Create Creator Account' : 'Sign In to Jyno'}</h1>
+            <p className="body-md text-muted">
+              {isSignUp 
+                ? 'Register to publish custom shoes, access the AI design studio, and start selling.'
+                : 'Access your dashboard, design studio, and sales metrics.'}
+            </p>
           </div>
 
           <form className="login-form" onSubmit={handleSubmit}>
             {error && <div className="login-form__error">⚠️ {error}</div>}
+
+            {isSignUp && (
+              <div className="form-group">
+                <label className="form-label" htmlFor="name">Full Name</label>
+                <input
+                  id="name"
+                  className="input login-input"
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  disabled={loading}
+                  required
+                />
+              </div>
+            )}
 
             <div className="form-group">
               <label className="form-label" htmlFor="username">Username</label>
@@ -96,13 +140,29 @@ export default function Login() {
               type="submit"
               disabled={loading}
             >
-              {loading ? 'Authenticating...' : 'Sign In ✦'}
+              {loading 
+                ? (isSignUp ? 'Creating Account...' : 'Authenticating...') 
+                : (isSignUp ? 'Create Creator Account ✦' : 'Sign In ✦')}
             </button>
           </form>
 
           <div className="login-card__footer">
             <p className="body-sm text-muted">
-              Don't have an account? <span className="text-lime" style={{ cursor: 'pointer' }}>Sign up as a Creator</span>
+              {isSignUp ? (
+                <>
+                  Already have an account?{' '}
+                  <span className="text-lime" style={{ cursor: 'pointer', fontWeight: 600 }} onClick={toggleMode}>
+                    Sign In
+                  </span>
+                </>
+              ) : (
+                <>
+                  Don't have an account?{' '}
+                  <span className="text-lime" style={{ cursor: 'pointer', fontWeight: 600 }} onClick={toggleMode}>
+                    Sign up as a Creator
+                  </span>
+                </>
+              )}
             </p>
           </div>
         </div>
