@@ -36,13 +36,27 @@ const MONTH_LABELS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('overview')
   const [allDesigns, setAllDesigns] = useState([])
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     getDesigns().then(setAllDesigns).catch(console.error)
+    
+    const userStr = localStorage.getItem('jyno_user')
+    if (userStr) {
+      try {
+        setUser(JSON.parse(userStr))
+      } catch (err) {
+        console.error(err)
+      }
+    }
   }, [])
 
-  const myDesigns = allDesigns.slice(0, 6)
-  const drafts    = allDesigns.slice(3, 6).map(d => ({ ...d, title: 'Draft: ' + d.title }))
+  const userDesigns = user 
+    ? allDesigns.filter(d => d.creator.username === user.username)
+    : []
+
+  const myDesigns = userDesigns.filter(d => d.forSale)
+  const drafts    = userDesigns.filter(d => !d.forSale)
 
   return (
     <div className="dashboard">
@@ -57,10 +71,12 @@ export default function Dashboard() {
             <span>jyno</span>
           </Link>
           <div className="dashboard-sidebar__user">
-            <div className="avatar avatar-md avatar-placeholder" style={{ fontSize: '1rem' }}>J</div>
+            <div className="avatar avatar-md avatar-placeholder" style={{ fontSize: '1rem' }}>
+              {user?.name ? user.name[0].toUpperCase() : 'J'}
+            </div>
             <div>
-              <div className="heading-sm text-white">Jyno Creator</div>
-              <div className="body-sm">@mycreator</div>
+              <div className="heading-sm text-white">{user?.name || 'Jyno Creator'}</div>
+              <div className="body-sm">@{user?.username || 'mycreator'}</div>
             </div>
           </div>
         </div>

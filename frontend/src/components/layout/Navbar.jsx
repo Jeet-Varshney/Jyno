@@ -120,6 +120,9 @@ export default function Navbar() {
                     <Link to="/jyno-control" className="navbar__dropdown-item">🔒 Admin Panel</Link>
                   )}
                   <Link to="/dashboard" className="navbar__dropdown-item">👟 My Dashboard</Link>
+                  {user.role === 'creator' && (
+                    <Link to={`/creator/${user.username}`} className="navbar__dropdown-item">👤 Public Profile</Link>
+                  )}
                   <button className="navbar__dropdown-item text-pink" onClick={handleLogout}>Sign Out</button>
                 </div>
               )}
@@ -164,6 +167,11 @@ export default function Navbar() {
               <li>
                 <Link to="/dashboard" className="navbar__mobile-link">Dashboard</Link>
               </li>
+              {user.role === 'creator' && (
+                <li>
+                  <Link to={`/creator/${user.username}`} className="navbar__mobile-link">Public Profile</Link>
+                </li>
+              )}
               <li>
                 <button className="navbar__mobile-link text-pink" onClick={handleLogout} style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', padding: '12px 24px', cursor: 'pointer' }}>
                   Sign Out

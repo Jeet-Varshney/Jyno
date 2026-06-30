@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import ShoeViewer from '../components/shoe/ShoeViewer'
 import { createDesign } from '../api/client'
@@ -54,6 +55,7 @@ const DEFAULT_COLORS = {
 }
 
 export default function Studio() {
+  const navigate = useNavigate()
   const [template, setTemplate]    = useState('runner')
   const [activeZone, setActiveZone] = useState('upper')
   const [materials, setMaterials]  = useState({
@@ -130,6 +132,24 @@ export default function Studio() {
     setPatterns({ upper: 'solid', sole: 'solid', accent: 'solid', lace: 'solid', tongue: 'solid' })
   }
 
+  function getCreatorObject() {
+    const userStr = localStorage.getItem('jyno_user')
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr)
+        return {
+          name: user.name || 'Jyno Creator',
+          username: user.username || 'mycreator',
+          avatar: null,
+          verified: user.role === 'admin'
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    return { name: 'You', username: 'you', avatar: null, verified: false }
+  }
+
   async function handleSave() {
     try {
       await createDesign({
@@ -141,14 +161,40 @@ export default function Studio() {
         colorTongue: colors.tongue,
         template,
         tags: [template, materials.upper, patterns.upper],
-        forSale: true,
-        creator: { name: 'You', username: 'you', avatar: null, verified: false },
+        forSale: false,
+        creator: getCreatorObject(),
       })
       setSavedMsg('✓ Saved to backend!')
     } catch {
       setSavedMsg('✓ Draft saved locally!')
     }
     setTimeout(() => setSavedMsg(null), 2500)
+  }
+
+  async function handlePublish() {
+    try {
+      await createDesign({
+        title: designName,
+        colorUpper: colors.upper,
+        colorSole: colors.sole,
+        colorAccent: colors.accent,
+        colorLace: colors.lace,
+        colorTongue: colors.tongue,
+        template,
+        tags: [template, materials.upper, patterns.upper],
+        forSale: true,
+        creator: getCreatorObject(),
+      })
+      setSavedMsg('✦ Published successfully!')
+      setTimeout(() => {
+        setSavedMsg(null)
+        navigate('/dashboard')
+      }, 1500)
+    } catch (err) {
+      console.error(err)
+      setSavedMsg('⚠️ Failed to publish design.')
+      setTimeout(() => setSavedMsg(null), 2500)
+    }
   }
 
   function handleAIGenerate() {
@@ -215,7 +261,7 @@ export default function Studio() {
           <button className="btn btn-secondary btn-sm" onClick={handleSave}>
             Save Draft
           </button>
-          <button className="btn btn-primary btn-sm">
+          <button className="btn btn-primary btn-sm" onClick={handlePublish}>
             Publish ✦
           </button>
         </div>
