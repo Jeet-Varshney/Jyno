@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import ShoeViewer from '../components/shoe/ShoeViewer'
@@ -56,6 +56,9 @@ const DEFAULT_COLORS = {
 
 export default function Studio() {
   const navigate = useNavigate()
+  const viewerRef = useRef(null)
+  const fileInputRef = useRef(null)
+
   const [template, setTemplate]    = useState('runner')
   const [activeZone, setActiveZone] = useState('upper')
   const [materials, setMaterials]  = useState({
@@ -87,6 +90,31 @@ export default function Studio() {
     { id: 3, name: 'Logo / Text', visible: true,  locked: false },
     { id: 4, name: 'Highlights',  visible: false, locked: false },
   ])
+
+  function toggleLock(id) {
+    setLayers(prev => prev.map(l => l.id === id ? { ...l, locked: !l.locked } : l))
+  }
+
+  function addCustomLayer() {
+    const name = prompt("Enter layer name:")
+    if (name && name.trim()) {
+      setLayers(prev => [...prev, { id: Date.now(), name: name.trim(), visible: true, locked: false }])
+    }
+  }
+
+  function handleArtworkUpload(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    
+    const reader = new FileReader()
+    reader.onload = () => {
+      setSavedMsg(`✓ Decal "${file.name}" uploaded successfully!`)
+      setTimeout(() => setSavedMsg(null), 3000)
+      
+      setLayers(prev => [...prev, { id: Date.now(), name: `Decal: ${file.name}`, visible: true, locked: false }])
+    }
+    reader.readAsDataURL(file)
+  }
 
   // Push a new colors snapshot onto undo stack
   function pushHistory(newColors) {
@@ -355,14 +383,15 @@ export default function Studio() {
                 patterns={patterns}
                 size="full"
                 animated={true}
+                viewerRef={viewerRef}
               />
             </div>
 
             {/* Zoom / Rotate controls */}
             <div className="studio__controls">
-              <button className="studio__ctrl-btn" title="Zoom In">+</button>
-              <button className="studio__ctrl-btn" title="Zoom Out">−</button>
-              <button className="studio__ctrl-btn" title="Reset View">⟳</button>
+              <button className="studio__ctrl-btn" title="Zoom In" onClick={() => viewerRef.current?.zoomIn()}>+</button>
+              <button className="studio__ctrl-btn" title="Zoom Out" onClick={() => viewerRef.current?.zoomOut()}>−</button>
+              <button className="studio__ctrl-btn" title="Reset View" onClick={() => viewerRef.current?.resetView()}>⟳</button>
             </div>
 
             {/* Color zone selector */}
@@ -496,13 +525,20 @@ export default function Studio() {
           {activeTool === 'upload' && (
             <div className="studio__panel">
               <div className="studio__panel-title">Custom Artwork</div>
-              <div className="studio__upload-zone">
+              <div className="studio__upload-zone" onClick={() => fileInputRef.current?.click()} style={{ cursor: 'pointer' }}>
                 <div style={{ fontSize: '1.5rem' }}>⬆️</div>
                 <div className="body-sm" style={{ textAlign: 'center' }}>
                   Drop image here or<br/>
-                  <span className="text-lime" style={{ cursor: 'pointer' }}>click to browse</span>
+                  <span className="text-lime">click to browse</span>
                 </div>
                 <div className="label text-muted">PNG, SVG, JPEG • Max 10MB</div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleArtworkUpload}
+                  accept="image/*"
+                />
               </div>
             </div>
           )}
@@ -523,12 +559,16 @@ export default function Studio() {
                   <span className={`studio__layer-name ${!layer.visible ? 'hidden' : ''}`}>
                     {layer.name}
                   </span>
-                  <button className="studio__layer-lock" title="Lock">
+                  <button
+                    className="studio__layer-lock"
+                    title="Lock"
+                    onClick={() => toggleLock(layer.id)}
+                  >
                     {layer.locked ? '🔒' : '🔓'}
                   </button>
                 </div>
               ))}
-              <button className="studio__add-layer">+ Add Layer</button>
+              <button className="studio__add-layer" onClick={addCustomLayer}>+ Add Layer</button>
             </div>
           </div>
         </aside>

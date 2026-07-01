@@ -4,50 +4,127 @@ import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import ShoeViewer from '../components/shoe/ShoeViewer'
 import DesignCard from '../components/community/DesignCard'
-import { getDesign, getDesigns, getCreators, likeDesign } from '../api/client'
+import {
+  getDesign, getDesigns, getCreators, likeDesign,
+  viewDesign, saveDesign, buyDesign, followCreator,
+  getComments, addComment as apiAddComment
+} from '../api/client'
 import './DesignDetail.css'
-
-const MOCK_COMMENTS = [
-  { id: 1, user: 'Zara.exe',    text: 'This colorway is absolutely 🔥 genius!', time: '2h ago', likes: 34 },
-  { id: 2, user: 'NovaKicks',   text: 'The sole gradient is everything. Want this IRL.', time: '4h ago', likes: 21 },
-  { id: 3, user: 'UrbanCanvas', text: 'Incredible attention to detail. Top-tier work.', time: '6h ago', likes: 18 },
-  { id: 4, user: 'KickCraft',   text: 'Can we get a midnight blue variation?', time: '1d ago', likes: 12 },
-]
 
 export default function DesignDetail() {
   const { id } = useParams()
   const [liked, setLiked]   = useState(false)
   const [saved, setSaved]   = useState(false)
   const [comment, setComment] = useState('')
-  const [comments, setComments] = useState(MOCK_COMMENTS)
+  const [comments, setComments] = useState([])
   const [fullscreen, setFullscreen] = useState(false)
   const [design, setDesign]   = useState(null)
   const [similar, setSimilar]  = useState([])
   const [allCreators, setAllCreators] = useState([])
+  const [currentUser, setCurrentUser] = useState(null)
+  const [buying, setBuying] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [creatorFollowing, setCreatorFollowing] = useState(false)
+  const [creatorFollowersCount, setCreatorFollowersCount] = useState(0)
 
   useEffect(() => {
-    getDesign(id).then(setDesign).catch(console.error)
+    const userStr = localStorage.getItem('jyno_user')
+    if (userStr) {
+      try {
+        setCurrentUser(JSON.parse(userStr))
+      } catch (err) {
+        console.error(err)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    getDesign(id).then(data => {
+      setDesign(data)
+      const userStr = localStorage.getItem('jyno_user')
+      let user = 'guest'
+      if (userStr) {
+        try { user = JSON.parse(userStr).username } catch (_) {}
+      }
+      viewDesign(id, user).catch(console.error)
+    }).catch(console.error)
+
     getDesigns().then(all => setSimilar(all.filter(d => d.id !== id).slice(0, 3))).catch(console.error)
     getCreators().then(setAllCreators).catch(console.error)
+    getComments(id).then(setComments).catch(console.error)
   }, [id])
 
   const creator = design
     ? (allCreators.find(c => c.username === design.creator.username) || allCreators[0] || {})
     : {}
 
-  function addComment() {
-    if (!comment.trim()) return
-    setComments(prev => [{
-      id: Date.now(), user: 'You', text: comment, time: 'just now', likes: 0
-    }, ...prev])
-    setComment('')
+  useEffect(() => {
+    if (creator) {
+      setCreatorFollowersCount(creator.followers || 0)
+    }
+  }, [creator])
+
+  async function handleAddComment() {
+    if (!comment.trim() || !design) return
+    const commentatorName = currentUser?.name || 'Guest'
+    try {
+      const newComment = await apiAddComment(design.id, commentatorName, comment.trim())
+      setComments(prev => [newComment, ...prev])
+      setDesign(prev => prev ? { ...prev, comments: prev.comments + 1 } : null)
+      setComment('')
+    } catch (err) {
+      console.error("Post comment failed:", err)
+    }
   }
 
-  function handleLike() {
-    if (!liked && design) {
-      likeDesign(design.id).catch(console.error)
+  async function handleLike() {
+    if (!design) return
+    const username = currentUser?.username || 'guest'
+    if (!liked) {
+      likeDesign(design.id, username).catch(console.error)
+      setDesign(prev => prev ? { ...prev, likes: prev.likes + 1 } : null)
     }
     setLiked(l => !l)
+  }
+
+  async function handleSave() {
+    if (!design) return
+    const username = currentUser?.username || 'guest'
+    if (!saved) {
+      saveDesign(design.id, username).catch(console.error)
+      setDesign(prev => prev ? { ...prev, saves: prev.saves + 1 } : null)
+    }
+    setSaved(s => !s)
+  }
+
+  async function handleBuy() {
+    if (!design) return
+    setBuying(true)
+    const username = currentUser?.username || 'guest'
+    try {
+      await buyDesign(design.id, username)
+      setShowSuccessModal(true)
+      // Increment views count locally as a proxy or just update it
+      setDesign(prev => prev ? { ...prev, views: prev.views + 1 } : null)
+    } catch (err) {
+      console.error("Purchase failed:", err)
+      alert("Purchase failed. Please try again.")
+    } finally {
+      setBuying(false)
+    }
+  }
+
+  async function handleFollow(e) {
+    e.preventDefault()
+    if (!creator?.username) return
+    const username = currentUser?.username || 'guest'
+    try {
+      await followCreator(creator.username, username)
+      setCreatorFollowing(true)
+      setCreatorFollowersCount(prev => prev + 1)
+    } catch (err) {
+      console.error("Follow failed:", err)
+    }
   }
 
   return (
@@ -150,12 +227,16 @@ export default function DesignDetail() {
                 {creator.name[0]}
               </div>
               <div>
-                <div className="heading-sm text-white">{creator.name}</div>
-                <div className="body-sm">@{creator.username} · {(creator.followers / 1000).toFixed(1)}k followers</div>
+                <div className="heading-sm text-white">{creator.name || design.creator.name}</div>
+                <div className="body-sm">@{creator.username || design.creator.username} · {creatorFollowersCount.toLocaleString()} followers</div>
               </div>
-              <button className="btn btn-secondary btn-sm" style={{ marginLeft: 'auto' }}
-                onClick={e => e.preventDefault()}>
-                Follow
+              <button
+                className={`btn ${creatorFollowing ? 'btn-secondary' : 'btn-primary'} btn-sm`}
+                style={{ marginLeft: 'auto' }}
+                onClick={handleFollow}
+                disabled={creatorFollowing}
+              >
+                {creatorFollowing ? 'Following ✓' : '+ Follow'}
               </button>
             </Link>
 
@@ -163,14 +244,14 @@ export default function DesignDetail() {
             <div className="design-detail__actions">
               <button
                 className={`btn ${liked ? 'btn-danger' : 'btn-secondary'} flex-1`}
-                onClick={() => setLiked(v => !v)}
+                onClick={handleLike}
                 style={{ flex: 1 }}
               >
                 {liked ? '❤️ Liked' : '🤍 Like'}
               </button>
               <button
                 className={`btn ${saved ? 'btn-secondary' : 'btn-secondary'} flex-1`}
-                onClick={() => setSaved(v => !v)}
+                onClick={handleSave}
                 style={{ flex: 1, ...(saved ? { borderColor: 'var(--jyno-lime)', color: 'var(--jyno-lime)' } : {}) }}
               >
                 {saved ? '🔖 Saved' : '🔖 Save'}
@@ -193,10 +274,20 @@ export default function DesignDetail() {
                     <span className="badge badge-silver">Ships Worldwide</span>
                   </div>
                 </div>
-                <button className="btn btn-primary btn-lg" style={{ width: '100%', justifyContent: 'center' }}>
-                  Buy This Shoe 👟
+                <button
+                  className={`btn btn-primary btn-lg ${buying ? 'loading' : ''}`}
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={handleBuy}
+                  disabled={buying}
+                >
+                  {buying ? 'Processing Transaction...' : 'Buy This Shoe 👟'}
                 </button>
-                <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'center', marginTop: 'var(--sp-2)' }}>
+                <button
+                  className="btn btn-secondary"
+                  style={{ width: '100%', justifyContent: 'center', marginTop: 'var(--sp-2)' }}
+                  onClick={handleBuy}
+                  disabled={buying}
+                >
                   Add to Cart
                 </button>
                 <p className="body-sm text-muted" style={{ textAlign: 'center', marginTop: 'var(--sp-2)' }}>
@@ -234,9 +325,9 @@ export default function DesignDetail() {
                   value={comment}
                   onChange={e => setComment(e.target.value)}
                   placeholder="Add a comment..."
-                  onKeyDown={e => e.key === 'Enter' && addComment()}
+                  onKeyDown={e => e.key === 'Enter' && handleAddComment()}
                 />
-                <button className="btn btn-primary btn-sm" onClick={addComment}>Post</button>
+                <button className="btn btn-primary btn-sm" onClick={handleAddComment}>Post</button>
               </div>
               <div className="design-detail__comment-list">
                 {comments.map(c => (
@@ -259,6 +350,26 @@ export default function DesignDetail() {
         </aside>
       </div>
 
+      )}
+
+      {showSuccessModal && (
+        <div className="success-modal-overlay animate-fade-in" onClick={() => setShowSuccessModal(false)}>
+          <div className="success-modal-card" onClick={e => e.stopPropagation()}>
+            <div className="success-modal-icon">🎉</div>
+            <h2 className="heading-lg text-white" style={{ marginTop: '10px' }}>Purchase Successful!</h2>
+            <p className="body-md text-silver" style={{ marginTop: '10px', textAlign: 'center' }}>
+              You bought <strong>{design?.title}</strong> for <span className="text-lime font-mono" style={{ fontWeight: 700 }}>${design?.price}</span>!
+            </p>
+            <p className="body-sm text-muted" style={{ marginTop: '8px', textAlign: 'center' }}>
+              The creator <strong>{creator?.name || design?.creator?.name}</strong> has been credited. A secure confirmation email is on the way.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '20px', width: '100%' }}>
+              <button className="btn btn-primary flex-1" style={{ justifyContent: 'center' }} onClick={() => setShowSuccessModal(false)}>
+                Awesome
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <Footer />

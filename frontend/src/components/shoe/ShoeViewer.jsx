@@ -159,6 +159,7 @@ export default function ShoeViewer({
   size        = 'md',
   animated    = true,
   rotating    = false,
+  viewerRef   = null,
 }) {
   const mountRef    = useRef(null)
   const sceneRef    = useRef(null)       // { scene, camera, renderer, controls, meshes, textures }
@@ -609,6 +610,24 @@ export default function ShoeViewer({
       }
       controls.update()
       renderer.render(scene, camera)
+    }
+
+    if (viewerRef) {
+      viewerRef.current = {
+        zoomIn: () => {
+          camera.position.z = Math.max(camera.position.z - 0.6, 2.5)
+          controls.update()
+        },
+        zoomOut: () => {
+          camera.position.z = Math.min(camera.position.z + 0.6, 10)
+          controls.update()
+        },
+        resetView: () => {
+          camera.position.set(0, 1.2, 6)
+          controls.target.set(0, 0, 0)
+          controls.update()
+        }
+      }
     }
     animate()
 

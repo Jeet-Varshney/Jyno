@@ -31,12 +31,33 @@ export const getDesign = (id) => request(`/designs/${id}`)
 export const createDesign = (design) =>
   request('/designs', { method: 'POST', body: JSON.stringify(design) })
 
-export const likeDesign = (id) =>
-  request(`/designs/${id}/like`, { method: 'POST' })
+export const likeDesign = (id, username) =>
+  request(`/designs/${id}/like`, { method: 'POST', body: JSON.stringify({ username }) })
+
+export const viewDesign = (id, username) =>
+  request(`/designs/${id}/view`, { method: 'POST', body: JSON.stringify({ username }) })
+
+export const saveDesign = (id, username) =>
+  request(`/designs/${id}/save`, { method: 'POST', body: JSON.stringify({ username }) })
+
+export const buyDesign = (id, username) =>
+  request(`/designs/${id}/buy`, { method: 'POST', body: JSON.stringify({ username }) })
+
+export const getComments = (id) =>
+  request(`/designs/${id}/comments`)
+
+export const addComment = (id, user, text) =>
+  request(`/designs/${id}/comments`, { method: 'POST', body: JSON.stringify({ user, text }) })
 
 // ─── Creators ─────────────────────────────────────────────────────────────────
 
 export const getCreators = () => request('/creators')
+
+export const followCreator = (creatorUsername, username) =>
+  request(`/creators/${creatorUsername}/follow`, { method: 'POST', body: JSON.stringify({ username }) })
+
+export const getCreatorAnalytics = (username) =>
+  request(`/creators/${username}/analytics`)
 
 // ─── Auth & Admin Portal ──────────────────────────────────────────────────────
 
@@ -45,6 +66,9 @@ export const login = (username, password) =>
 
 export const signup = (name, username, password) =>
   request('/auth/signup', { method: 'POST', body: JSON.stringify({ name, username, password }) })
+
+export const checkUsernameAvailability = (username) =>
+  request(`/auth/check-username?username=${encodeURIComponent(username)}`)
 
 
 export const deleteDesign = (id) =>

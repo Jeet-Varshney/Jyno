@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import DesignCard from '../components/community/DesignCard'
-import { getCreators, getDesigns } from '../api/client'
+import { getCreators, getDesigns, followCreator } from '../api/client'
 import './CreatorProfile.css'
 
 const BADGE_INFO = {
@@ -19,35 +19,89 @@ export default function CreatorProfile() {
   const { username } = useParams()
   const [activeTab, setActiveTab] = useState('Designs')
   const [following, setFollowing] = useState(false)
+  const [followersCount, setFollowersCount] = useState(0)
   const [allCreators, setAllCreators] = useState([])
   const [allDesigns, setAllDesigns]   = useState([])
+  const [currentUser, setCurrentUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getCreators().then(setAllCreators).catch(console.error)
-    getDesigns().then(setAllDesigns).catch(console.error)
+    const userStr = localStorage.getItem('jyno_user')
+    if (userStr) {
+      try {
+        setCurrentUser(JSON.parse(userStr))
+      } catch (err) {
+        console.error(err)
+      }
+    }
   }, [])
 
-  const creator = allCreators.find(c => c.username === username) || allCreators[0] || {
-    name: '',
-    username: '',
-    badges: [],
-    followers: 0,
-    following: 0,
-    totalDesigns: 0,
-    totalSales: 0,
-    totalEarnings: 0,
-    bio: '',
-    joinedAt: '',
-    colorAccent: '#C8FF00'
+  useEffect(() => {
+    setLoading(true)
+    Promise.all([
+      getCreators().then(setAllCreators),
+      getDesigns().then(setAllDesigns)
+    ]).then(() => setLoading(false))
+      .catch(err => {
+        console.error(err)
+        setLoading(false)
+      })
+  }, [username])
+
+  const creator = allCreators.find(c => c.username === username)
+
+  useEffect(() => {
+    if (creator) {
+      setFollowersCount(creator.followers || 0)
+    }
+  }, [creator])
+
+  async function handleFollow() {
+    if (!creator?.username) return
+    const user = currentUser?.username || 'guest'
+    try {
+      await followCreator(creator.username, user)
+      setFollowing(true)
+      setFollowersCount(prev => prev + 1)
+    } catch (err) {
+      console.error("Follow failed:", err)
+    }
   }
-  const creatorDesigns = allDesigns.filter(d => d.creator.username === creator.username)
-  // Fill up if too few
+
+  const creatorDesigns = creator ? allDesigns.filter(d => d.creator.username === creator.username) : []
   const displayDesigns = creatorDesigns.length > 0 ? creatorDesigns : allDesigns.slice(0, 4)
 
   function formatNum(n) {
     if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M'
     if (n >= 1000) return (n / 1000).toFixed(1) + 'k'
     return n
+  }
+
+  if (loading) {
+    return (
+      <div className="creator-profile" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar />
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--jyno-silver)' }}>
+          Loading profile…
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
+  if (!creator) {
+    return (
+      <div className="creator-profile" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+          <span style={{ fontSize: '3rem' }}>🔍</span>
+          <h2 className="heading-lg text-white">Creator Not Found</h2>
+          <p className="body-md text-muted">We couldn't find a public profile for @{username}.</p>
+          <Link to="/" className="btn btn-secondary">Go Home</Link>
+        </div>
+        <Footer />
+      </div>
+    )
   }
 
   return (
@@ -104,7 +158,7 @@ export default function CreatorProfile() {
           <div className="creator-header__right">
             <div className="creator-header__stats">
               {[
-                { val: formatNum(creator.followers), label: 'Followers' },
+                { val: formatNum(followersCount), label: 'Followers' },
                 { val: formatNum(creator.following), label: 'Following' },
                 { val: creator.totalDesigns, label: 'Designs' },
                 { val: creator.totalSales, label: 'Sales' },
@@ -118,12 +172,15 @@ export default function CreatorProfile() {
               ))}
             </div>
             <div className="creator-header__actions">
-              <button
-                className={`btn ${following ? 'btn-secondary' : 'btn-primary'}`}
-                onClick={() => setFollowing(v => !v)}
-              >
-                {following ? 'Following ✓' : '+ Follow'}
-              </button>
+              {currentUser?.username !== creator?.username && (
+                <button
+                  className={`btn ${following ? 'btn-secondary' : 'btn-primary'}`}
+                  onClick={handleFollow}
+                  disabled={following}
+                >
+                  {following ? 'Following ✓' : '+ Follow'}
+                </button>
+              )}
               <button className="btn btn-secondary btn-icon" title="Message">✉</button>
               <button className="btn btn-secondary btn-icon" title="Share">⬆</button>
             </div>
@@ -169,7 +226,7 @@ export default function CreatorProfile() {
                 <div className="creator-about__stats">
                   {[
                     { icon: '🎨', label: 'Total Designs', val: creator.totalDesigns },
-                    { icon: '👥', label: 'Total Followers', val: formatNum(creator.followers) },
+                    { icon: '👥', label: 'Total Followers', val: formatNum(followersCount) },
                     { icon: '💰', label: 'Designs Sold', val: creator.totalSales },
                     { icon: '⭐', label: 'Badges Earned', val: creator.badges.length },
                   ].map((s, i) => (

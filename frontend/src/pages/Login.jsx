@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { login, signup } from '../api/client'
+import { login, signup, checkUsernameAvailability } from '../api/client'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import './Login.css'
@@ -12,6 +12,8 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [usernameAvailable, setUsernameAvailable] = useState(null)
+  const [usernameAvailabilityMsg, setUsernameAvailabilityMsg] = useState('')
   const navigate = useNavigate()
 
   function toggleMode() {
@@ -20,7 +22,48 @@ export default function Login() {
     setUsername('')
     setPassword('')
     setError('')
+    setUsernameAvailable(null)
+    setUsernameAvailabilityMsg('')
   }
+
+  useEffect(() => {
+    if (!isSignUp || !username.trim()) {
+      setUsernameAvailable(null)
+      setUsernameAvailabilityMsg('')
+      return
+    }
+
+    const trimmed = username.trim()
+    
+    // Validate characters (must only contain alphanumeric and underscores)
+    const usernameRegex = /^[a-zA-Z0-9_]+$/
+    if (!usernameRegex.test(trimmed)) {
+      setUsernameAvailable(false)
+      setUsernameAvailabilityMsg('⚠️ Username can only contain letters, numbers, and underscores.')
+      return
+    }
+
+    setUsernameAvailabilityMsg('Checking availability...')
+    setUsernameAvailable(null)
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await checkUsernameAvailability(trimmed)
+        if (res.available) {
+          setUsernameAvailable(true)
+          setUsernameAvailabilityMsg('✓ Username is available')
+        } else {
+          setUsernameAvailable(false)
+          setUsernameAvailabilityMsg('⚠️ Username already exists')
+        }
+      } catch (err) {
+        console.error(err)
+        setUsernameAvailabilityMsg('')
+      }
+    }, 500) // 500ms debounce
+
+    return () => clearTimeout(timer)
+  }, [username, isSignUp])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -28,6 +71,19 @@ export default function Login() {
     if (isSignUp) {
       if (!name.trim() || !username.trim() || !password.trim()) {
         setError('Please fill in all fields.')
+        return
+      }
+
+      // Client-side username character check (alphanumeric and underscores only)
+      const usernameRegex = /^[a-zA-Z0-9_]+$/
+      if (!usernameRegex.test(username.trim())) {
+        setError('Username can only contain letters, numbers, and underscores.')
+        return
+      }
+
+      // Client-side password criteria check (min 6 chars, at least 1 number)
+      if (password.length < 6 || !/\d/.test(password)) {
+        setError('Password must be at least 6 characters long and contain at least one number.')
         return
       }
     } else {
@@ -119,6 +175,22 @@ export default function Login() {
                 disabled={loading}
                 required
               />
+              {isSignUp && usernameAvailabilityMsg && (
+                <div
+                  className="username-hint"
+                  style={{
+                    fontSize: '0.75rem',
+                    marginTop: '6px',
+                    color: usernameAvailable === true 
+                      ? 'var(--jyno-lime)' 
+                      : usernameAvailable === false 
+                        ? 'var(--jyno-pink)' 
+                        : 'var(--jyno-silver)'
+                  }}
+                >
+                  {usernameAvailabilityMsg}
+                </div>
+              )}
             </div>
 
             <div className="form-group">

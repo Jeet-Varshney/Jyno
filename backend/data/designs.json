@@ -1,0 +1,542 @@
+[
+  {
+    "id": "1",
+    "title": "Cyberpunk Neon Runner",
+    "creator": {
+      "name": "Zara.exe",
+      "username": "zaraexe",
+      "avatar": null,
+      "verified": true
+    },
+    "image": null,
+    "colorA": "#00D4FF",
+    "colorB": "#8B5CF6",
+    "colorC": "#FF3366",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 4821,
+    "saves": 1203,
+    "comments": 89,
+    "views": 42102,
+    "price": 189,
+    "forSale": true,
+    "tags": [
+      "cyberpunk",
+      "neon",
+      "futuristic"
+    ],
+    "template": "runner",
+    "createdAt": "2 hours ago",
+    "trending": true,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Tokyo Cherry Drift",
+    "creator": {
+      "name": "NovaKicks",
+      "username": "novakicks",
+      "avatar": null,
+      "verified": true
+    },
+    "image": null,
+    "colorA": "#FF6B9D",
+    "colorB": "#FFD700",
+    "colorC": "#FFF",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 3640,
+    "saves": 892,
+    "comments": 54,
+    "views": 31200,
+    "price": 220,
+    "forSale": true,
+    "tags": [
+      "japan",
+      "sakura",
+      "pastel"
+    ],
+    "template": "high-top",
+    "createdAt": "5 hours ago",
+    "trending": true,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Void Walker Low",
+    "creator": {
+      "name": "KickCraft",
+      "username": "kickcraft",
+      "avatar": null,
+      "verified": false
+    },
+    "image": null,
+    "colorA": "#0A0A0B",
+    "colorB": "#C8FF00",
+    "colorC": "#1A1A1E",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 2910,
+    "saves": 740,
+    "comments": 33,
+    "views": 22800,
+    "price": 165,
+    "forSale": true,
+    "tags": [
+      "minimal",
+      "dark",
+      "stealth"
+    ],
+    "template": "low-top",
+    "createdAt": "1 day ago",
+    "trending": false,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Solar Flare Hi-Top",
+    "creator": {
+      "name": "SunriseDesigns",
+      "username": "sunrise",
+      "avatar": null,
+      "verified": true
+    },
+    "image": null,
+    "colorA": "#FF6B00",
+    "colorB": "#FFD700",
+    "colorC": "#FF3366",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 5210,
+    "saves": 1890,
+    "comments": 112,
+    "views": 58000,
+    "price": 299,
+    "forSale": true,
+    "tags": [
+      "fire",
+      "bold",
+      "statement"
+    ],
+    "template": "high-top",
+    "createdAt": "2 days ago",
+    "trending": true,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "title": "Arctic Ghost Slip-On",
+    "creator": {
+      "name": "IceLab",
+      "username": "icelab",
+      "avatar": null,
+      "verified": false
+    },
+    "image": null,
+    "colorA": "#E0F4FF",
+    "colorB": "#B0E0FF",
+    "colorC": "#FFFFFF",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 1870,
+    "saves": 430,
+    "comments": 21,
+    "views": 14600,
+    "price": 140,
+    "forSale": false,
+    "tags": [
+      "minimal",
+      "white",
+      "clean"
+    ],
+    "template": "slip-on",
+    "createdAt": "3 days ago",
+    "trending": false,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "title": "Graffiti Blast Trainer",
+    "creator": {
+      "name": "UrbanCanvas",
+      "username": "urbancanvas",
+      "avatar": null,
+      "verified": true
+    },
+    "image": null,
+    "colorA": "#FF3366",
+    "colorB": "#C8FF00",
+    "colorC": "#00D4FF",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 7340,
+    "saves": 2100,
+    "comments": 198,
+    "views": 76400,
+    "price": 245,
+    "forSale": true,
+    "tags": [
+      "streetwear",
+      "graffiti",
+      "colorful"
+    ],
+    "template": "trainer",
+    "createdAt": "4 days ago",
+    "trending": true,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "Midnight Sage Platform",
+    "creator": {
+      "name": "GlitchWear",
+      "username": "glitchwear",
+      "avatar": null,
+      "verified": false
+    },
+    "image": null,
+    "colorA": "#4CAF50",
+    "colorB": "#1A2A1A",
+    "colorC": "#8FBC8F",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 2230,
+    "saves": 567,
+    "comments": 44,
+    "views": 19200,
+    "price": 175,
+    "forSale": true,
+    "tags": [
+      "nature",
+      "platform",
+      "earthy"
+    ],
+    "template": "platform",
+    "createdAt": "5 days ago",
+    "trending": false,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "title": "Chrome Future Racer",
+    "creator": {
+      "name": "MetaKicks",
+      "username": "metakicks",
+      "avatar": null,
+      "verified": true
+    },
+    "image": null,
+    "colorA": "#C0C0C0",
+    "colorB": "#888",
+    "colorC": "#E8E8E8",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 6120,
+    "saves": 1780,
+    "comments": 156,
+    "views": 64300,
+    "price": 320,
+    "forSale": true,
+    "tags": [
+      "chrome",
+      "metallic",
+      "futuristic"
+    ],
+    "template": "racer",
+    "createdAt": "1 week ago",
+    "trending": true,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "title": "Pastel Dreamscape",
+    "creator": {
+      "name": "SoftGlow",
+      "username": "softglow",
+      "avatar": null,
+      "verified": false
+    },
+    "image": null,
+    "colorA": "#FFB3E6",
+    "colorB": "#B3E5FF",
+    "colorC": "#E8FFB3",
+    "colorLace": "#ffffff",
+    "colorTongue": "#2A2A35",
+    "likes": 3480,
+    "saves": 990,
+    "comments": 67,
+    "views": 28900,
+    "price": 195,
+    "forSale": true,
+    "tags": [
+      "pastel",
+      "dreamy",
+      "aesthetic"
+    ],
+    "template": "low-top",
+    "createdAt": "1 week ago",
+    "trending": false,
+    "commentsList": [
+      {
+        "id": 1,
+        "user": "Zara.exe",
+        "text": "This colorway is absolutely 🔥 genius!",
+        "time": "2 hours ago",
+        "likes": 34
+      },
+      {
+        "id": 2,
+        "user": "NovaKicks",
+        "text": "The sole gradient is everything. Want this IRL.",
+        "time": "4 hours ago",
+        "likes": 21
+      },
+      {
+        "id": 3,
+        "user": "UrbanCanvas",
+        "text": "Incredible attention to detail. Top-tier work.",
+        "time": "6 hours ago",
+        "likes": 18
+      },
+      {
+        "id": 4,
+        "user": "KickCraft",
+        "text": "Can we get a midnight blue variation?",
+        "time": "1 day ago",
+        "likes": 12
+      }
+    ]
+  }
+]

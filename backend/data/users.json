@@ -1,0 +1,62 @@
+{
+  "jyno_admin_portal": {
+    "username": "jyno_admin_portal",
+    "name": "System Admin",
+    "role": "admin",
+    "passwordHash": "002788ab14570ba30e8e97b21910dc284dab2fc6429f8cd12eb90ad44441a2d3"
+  },
+  "zara_creative_dir": {
+    "username": "zaraexe",
+    "name": "Zara.exe",
+    "role": "creator",
+    "passwordHash": "8d977b1758ab08ab2777d8006dbfea04f0ffae133a855db9dcffc45811a57651"
+  },
+  "zaraexe": {
+    "username": "zaraexe",
+    "name": "Zara.exe",
+    "role": "creator",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  },
+  "novakicks": {
+    "username": "novakicks",
+    "name": "NovaKicks",
+    "role": "creator",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  },
+  "urbancanvas": {
+    "username": "urbancanvas",
+    "name": "UrbanCanvas",
+    "role": "creator",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  },
+  "metakicks": {
+    "username": "metakicks",
+    "name": "MetaKicks",
+    "role": "creator",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  },
+  "sunrise": {
+    "username": "sunrise",
+    "name": "SunriseDesigns",
+    "role": "creator",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  },
+  "kickcraft": {
+    "username": "kickcraft",
+    "name": "KickCraft",
+    "role": "creator",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  },
+  "zara.exe": {
+    "username": "zara.exe",
+    "name": "zara",
+    "role": "creator",
+    "passwordHash": "1a637788c9e469bd4e4ef4bf05507d20d3fa2c37e046f21a43ca06ed650b36a4"
+  },
+  "a": {
+    "username": "a",
+    "name": "Jeet Varshney",
+    "role": "creator",
+    "passwordHash": "71a808ded755ff3e9655ecbb0b3a871436787ba9846e63291ca1862ebe6a044a"
+  }
+}

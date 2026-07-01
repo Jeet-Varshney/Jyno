@@ -1,0 +1,164 @@
+[
+  {
+    "id": "1",
+    "name": "Zara.exe",
+    "username": "zaraexe",
+    "avatar": null,
+    "bio": "Digital artist × sneaker head. Designing the future one sole at a time. Tokyo-based.",
+    "followers": 48200,
+    "following": 312,
+    "totalDesigns": 87,
+    "totalSales": 1240,
+    "totalEarnings": 38600,
+    "badges": [
+      "verified",
+      "top-creator",
+      "gold-seller"
+    ],
+    "popularDesigns": [
+      "1",
+      "4"
+    ],
+    "joinedAt": "Jan 2024",
+    "colorAccent": "#00D4FF"
+  },
+  {
+    "id": "2",
+    "name": "NovaKicks",
+    "username": "novakicks",
+    "avatar": null,
+    "bio": "Turning cultural moments into wearable art. NYC × Seoul.",
+    "followers": 31800,
+    "following": 198,
+    "totalDesigns": 54,
+    "totalSales": 820,
+    "totalEarnings": 24900,
+    "badges": [
+      "verified",
+      "top-creator"
+    ],
+    "popularDesigns": [
+      "2",
+      "6"
+    ],
+    "joinedAt": "Mar 2024",
+    "colorAccent": "#FF6B9D"
+  },
+  {
+    "id": "3",
+    "name": "UrbanCanvas",
+    "username": "urbancanvas",
+    "avatar": null,
+    "bio": "Street art meets high fashion. Every shoe tells a story.",
+    "followers": 67400,
+    "following": 445,
+    "totalDesigns": 132,
+    "totalSales": 2100,
+    "totalEarnings": 67200,
+    "badges": [
+      "verified",
+      "top-creator",
+      "gold-seller",
+      "early-adopter"
+    ],
+    "popularDesigns": [
+      "6",
+      "8"
+    ],
+    "joinedAt": "Nov 2023",
+    "colorAccent": "#C8FF00"
+  },
+  {
+    "id": "4",
+    "name": "MetaKicks",
+    "username": "metakicks",
+    "avatar": null,
+    "bio": "Chrome. Metal. Future. Designing shoes for the next dimension.",
+    "followers": 22100,
+    "following": 87,
+    "totalDesigns": 41,
+    "totalSales": 560,
+    "totalEarnings": 18900,
+    "badges": [
+      "verified"
+    ],
+    "popularDesigns": [
+      "8"
+    ],
+    "joinedAt": "May 2024",
+    "colorAccent": "#C0C0C0"
+  },
+  {
+    "id": "5",
+    "name": "SunriseDesigns",
+    "username": "sunrise",
+    "avatar": null,
+    "bio": "Bold colors, bolder statements. Inspired by the sun.",
+    "followers": 39600,
+    "following": 267,
+    "totalDesigns": 68,
+    "totalSales": 990,
+    "totalEarnings": 31400,
+    "badges": [
+      "verified",
+      "top-creator"
+    ],
+    "popularDesigns": [
+      "4"
+    ],
+    "joinedAt": "Feb 2024",
+    "colorAccent": "#FF6B00"
+  },
+  {
+    "id": "6",
+    "name": "KickCraft",
+    "username": "kickcraft",
+    "avatar": null,
+    "bio": "Stealth mode on. Minimalist designs for the discerning eye.",
+    "followers": 14300,
+    "following": 156,
+    "totalDesigns": 29,
+    "totalSales": 320,
+    "totalEarnings": 10800,
+    "badges": [
+      "early-adopter"
+    ],
+    "popularDesigns": [
+      "3"
+    ],
+    "joinedAt": "Jul 2024",
+    "colorAccent": "#C8FF00"
+  },
+  {
+    "id": "7",
+    "name": "zara",
+    "username": "zara.exe",
+    "avatar": null,
+    "bio": "Digital artist × sneaker head. Designing the future one sole at a time.",
+    "followers": 0,
+    "following": 0,
+    "totalDesigns": 0,
+    "totalSales": 0,
+    "totalEarnings": 0,
+    "badges": [],
+    "popularDesigns": [],
+    "joinedAt": "Jul 2026",
+    "colorAccent": "#00D4FF"
+  },
+  {
+    "id": "8",
+    "name": "Jeet Varshney",
+    "username": "a",
+    "avatar": null,
+    "bio": "Digital artist × sneaker head. Designing the future one sole at a time.",
+    "followers": 0,
+    "following": 0,
+    "totalDesigns": 0,
+    "totalSales": 0,
+    "totalEarnings": 0,
+    "badges": [],
+    "popularDesigns": [],
+    "joinedAt": "Jul 2026",
+    "colorAccent": "#00D4FF"
+  }
+]
